@@ -202,3 +202,15 @@ def big_shoe_rebounds
       end
   end
 end
+
+def most_points_scored
+  game_hash.each do |location, team|
+    binding.pry
+    team[:players].each do |player|
+      binding.pry
+      if player[:points] > 40
+        binding.pry
+      end
+    end
+  end
+end
