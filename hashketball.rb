@@ -192,25 +192,101 @@ def player_stats(player_name)
 end
 
 def big_shoe_rebounds
+  big_shoe = nil
+  big_rebounds = nil
   game_hash.each do |location, team|
     team[:players].each do |player|
-      if player[:shoe] > 18
-        # binding.pry
-        return player[:rebounds]
-        # binding.pry
+      if big_shoe == nil || big_shoe < player[:shoe]
+          big_shoe = player[:shoe]
+          big_rebounds = player[:rebounds]
         end
       end
   end
+  return big_rebounds
 end
 
 def most_points_scored
+  most_points = nil
+  highest_scorer = nil
   game_hash.each do |location, team|
-    binding.pry
+    # binding.pry
     team[:players].each do |player|
-      binding.pry
-      if player[:points] > 40
+      # binding.pry
+      if most_points == nil || most_points < player[:points]
+          most_points = player[:points]
+          highest_scorer = player[:player_name]
+        # binding.pry
+      end
+    end
+  end
+  return highest_scorer
+end
+ puts most_points_scored
+
+def winning_team
+  nets_points = 0
+  hornets_points = 0
+  team_won = nil
+  game_hash.each do |location, team|
+    if team[:team_name] == "Brooklyn Nets"
+      # binding.pry
+    team[:players].each do |player|
+      nets_points = nets_points + player[:points]
+      end
+    end
+    if team[:team_name] == "Charlotte Hornets"
+      team[:players].each do |player|
+        hornets_points = hornets_points + player[:points]
+        # binding.pry
+        end
+      end
+      if nets_points > hornets_points
+        team_won = "Brooklyn Nets"
+      elsif hornets_points > nets_points
+        team_won = "Charlotte Hornets"
         binding.pry
+      end
+  end
+  team_won
+end
+puts winning_team
+
+def player_with_longest_name
+  long_name = 0
+  name_of_player = nil
+  game_hash.each do |location, team|
+    team[:players].each do |player|
+      if long_name == 0 || long_name < player[:player_name].length
+        long_name = player[:player_name].length
+        name_of_player = player[:player_name]
+        # binding.pry
+      end
+    end
+  end
+  name_of_player
+end
+puts player_with_longest_name
+
+def long_name_steals_a_ton?
+  long_name = 0
+  name_of_player = nil
+  steals_a_ton = 0
+  game_hash.each do |location, team|
+    team[:players].each do |player|
+      if long_name == 0 || long_name < player[:player_name].length
+        # binding.pry
+        long_name = player[:player_name].length
+        name_of_player = player
+      end
+      if steals_a_ton == 0 || steals_a_ton < player[:steals]
+        steals_a_ton = player[:steals]
+        # binding.pry
+      end
+      if name_of_player[:steals] == steals_a_ton
+        # binding.pry
+        return true
       end
     end
   end
 end
+puts long_name_steals_a_ton?
